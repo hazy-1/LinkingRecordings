@@ -15,6 +15,8 @@ FilePlayer[] player = new FilePlayer[100];
 int record_no = 0;
 int player_count = 0;
 
+int flag;
+
 boolean playFlag = false;
 
 void setup(){
