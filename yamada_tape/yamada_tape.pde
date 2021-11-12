@@ -80,6 +80,7 @@ void playFunc() {
     player[player_count].play();
 
     if(player[player_count].position() >= player[player_count].length()) {
+        player[player_count].pause();
         player_count++;
 
         if(player_count >= record_no){
