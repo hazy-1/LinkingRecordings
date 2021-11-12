@@ -83,7 +83,7 @@ void playFunc() {
         player[player_count].pause();
         player_count++;
 
-        if(player_count >= record_no){
+        if(player_count == record_no){
             playFlag = false;
             player_count = 0;
 
