@@ -17,6 +17,8 @@ int player_count = 0;
 
 int flag;
 
+int hoge;
+
 boolean playFlag = false;
 
 void setup(){
