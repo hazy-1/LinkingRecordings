@@ -15,9 +15,7 @@ FilePlayer[] player = new FilePlayer[100];
 int record_no = 0;
 int player_count = 0;
 
-int flag;
-
-int hoge;
+int play_flag;
 
 boolean playFlag = false;
 
@@ -46,9 +44,6 @@ void keyReleased()
 {
   if (key == 'r' ){
       playFlag = false;
-      for(int i = 0;  i < record_no; i++){
-        player[i].cue(0);
-    }
       player_count = 0;
       recFunc();
   }
@@ -90,12 +85,11 @@ void playFunc() {
 
     if(player[player_count].position() >= player[player_count].length()) {
         player[player_count].pause();
+        player[player_count].cue(0);
         player_count++;
 
         if(player_count == record_no){
             player_count = 0;
-
-            player[player_count].play();
         }
     }
 }
