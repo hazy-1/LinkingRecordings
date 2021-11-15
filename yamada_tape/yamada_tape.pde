@@ -45,17 +45,23 @@ void draw(){
 void keyReleased()
 {
   if (key == 'r' ){
+      playFlag = false;
+      for(int i = 0;  i < record_no; i++){
+        player[i].cue(0);
+    }
       player_count = 0;
       recFunc();
   }
   
   if (key == 's' ){
       saveFunc();
+
+      playFlag = true;
   }
 
   if(key ==  'p'){
     //   playFunc();
-    playFlag = true;
+    // playFlag = true;
   }
 }
 
@@ -79,6 +85,7 @@ void saveFunc() {
 }
 
 void playFunc() {
+    delay(500);
     player[player_count].play();
 
     if(player[player_count].position() >= player[player_count].length()) {
@@ -86,12 +93,9 @@ void playFunc() {
         player_count++;
 
         if(player_count == record_no){
-            playFlag = false;
             player_count = 0;
 
-            for(int i = 0;  i < record_no; i++){
-                player[i].cue(0);
-            }
+            player[player_count].play();
         }
     }
 }
