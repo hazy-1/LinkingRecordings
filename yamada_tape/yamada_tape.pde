@@ -38,6 +38,8 @@ void draw(){
       playFunc();
   }
 
+  print(player[0]);
+
 }
 
 void keyReleased()
@@ -51,7 +53,9 @@ void keyReleased()
   if (key == 's' ){
       saveFunc();
 
-      playFlag = true;
+      if(player[0] != null){
+          playFlag = true;
+      }
   }
 
   if(key ==  'p'){
