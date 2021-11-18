@@ -15,7 +15,8 @@ FilePlayer[] player = new FilePlayer[100];
 int record_no = 0;
 int player_count = 0;
 
-int ;
+// 奇数or偶数をカウントするために、キーを押した回数を保持
+int key_count;
 
 boolean playFlag = false;
 
@@ -44,26 +45,25 @@ void draw(){
 
 void keyReleased()
 {
-  if (key == 'r' ){
-      if(player[0] != null){
-        player[player_count].pause();
-        playFlag = false;
-        player_count = 0;
-      }
-      recFunc();
-  }
-  
-  if (key == 's' ){
-      saveFunc();
+  if (key == 'r' )
+  {
+      key_count++;
 
-      if(player[0] != null){
-          playFlag = true;
+      if(key_count % 2 == 1) {
+        if(player[0] != null){
+            player[player_count].pause();
+            playFlag = false;
+            player_count = 0;
+        }
+        recFunc();
       }
-  }
+      else if(key_count % 2 == 0) {
+        saveFunc();
 
-  if(key ==  'p'){
-    //   playFunc();
-    // playFlag = true;
+        if(player[0] != null){
+            playFlag = true;
+        }
+      }
   }
 }
 
