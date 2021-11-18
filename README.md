@@ -2,11 +2,10 @@
 
 
 
-## Recording Mode
-# yamada_tape1
-press R (2n -1) = record 
-press R (2n) = play
-
-# yamada_tape2
-pressing R = record 
-release R = play
+## レコードのモードについて
+# yamada_tape1.pde
+Rを奇数回押したとき：録音
+Rを偶数回押したとき：ループ再生
+# yamada_tape2.pde
+Rを押している最中：録音
+Rを離したとき：ループ再生
