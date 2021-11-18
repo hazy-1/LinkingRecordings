@@ -15,7 +15,7 @@ FilePlayer[] player = new FilePlayer[100];
 int record_no = 0;
 int player_count = 0;
 
-int play_flag;
+int ;
 
 boolean playFlag = false;
 
@@ -45,8 +45,11 @@ void draw(){
 void keyReleased()
 {
   if (key == 'r' ){
-      playFlag = false;
-      player_count = 0;
+      if(player[0] != null){
+        player[player_count].pause();
+        playFlag = false;
+        player_count = 0;
+      }
       recFunc();
   }
   
