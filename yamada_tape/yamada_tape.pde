@@ -6,18 +6,21 @@ Minim minim;
 // for Recording
 AudioInput in;
 AudioRecorder[] recorder = new AudioRecorder[100];
-boolean recorded = false;
 
 // for Playback
 AudioOutput out;
 FilePlayer[] player = new FilePlayer[100];
 
+//レコードする配列番号の保持
 int record_no = 0;
+
+//再生中の配列番号の保持
 int player_count = 0;
 
 // 奇数or偶数をカウントするために、キーを押した回数を保持
 int key_count;
 
+//再生可能状態の判別
 boolean playFlag = false;
 
 void setup(){
@@ -25,7 +28,6 @@ void setup(){
   background(255);
 
   minim = new Minim(this);
-  // beat = new AudioPlayer[3];
 
   in = minim.getLineIn(Minim.MONO, 2048);
   out = minim.getLineOut(Minim.MONO);
@@ -38,9 +40,6 @@ void draw(){
   if(playFlag){
       playFunc();
   }
-
-  print(player[0]);
-
 }
 
 void keyReleased()
@@ -75,14 +74,11 @@ void recFunc() {
 void saveFunc() {
     if(recorder[record_no].isRecording()) {
         recorder[record_no].endRecord();
-        // recorded = true;
 
         player[record_no] = new FilePlayer(recorder[record_no].save());
         player[record_no].patch(out);
 
         record_no++;
-
-        print(record_no);
     }
 }
 
