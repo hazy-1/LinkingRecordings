@@ -10,6 +10,7 @@ AudioRecorder[] recorder = new AudioRecorder[100];
 // for Playback
 AudioOutput out;
 FilePlayer[] player = new FilePlayer[100];
+File file;
 
 //レコードする配列番号の保持
 int record_no = 0;
@@ -23,6 +24,11 @@ int key_count;
 //再生可能状態の判別
 boolean playFlag = false;
 
+// 既に録音データがあるかを判別
+boolean file_exist;
+
+String file_name = "Documents/WORK/LinkingRecordings/yamada_tape/data/myrecording0.wav";
+
 void setup(){
   size(500, 500);
   background(255);
@@ -31,6 +37,12 @@ void setup(){
 
   in = minim.getLineIn(Minim.MONO, 2048);
   out = minim.getLineOut(Minim.MONO);
+
+
+  file = new File(file_name);
+
+  file_exist = file.exists();
+  print(file_exist);
 }
 
 void draw(){ 
