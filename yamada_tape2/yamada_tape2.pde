@@ -3,13 +3,17 @@ import ddf.minim.ugens.*;
 
 Minim minim;
 
+// 録音できるデータ数
+int max_record = 100;
+
 // for Recording
 AudioInput in;
-AudioRecorder[] recorder = new AudioRecorder[100];
+AudioRecorder[] recorder = new AudioRecorder[max_record];
 
 // for Playback
 AudioOutput out;
-FilePlayer[] player = new FilePlayer[100];
+FilePlayer[] player = new FilePlayer[max_record];
+File file;
 
 //レコードする配列番号の保持
 int record_no = 0;
@@ -20,7 +24,7 @@ int player_count = 0;
 int rec_flag_count = 0;
 
 //再生可能状態の判別
-boolean playFlag = false;
+boolean play_flag = false;
 
 void setup(){
   size(500, 500);
@@ -30,13 +34,15 @@ void setup(){
 
   in = minim.getLineIn(Minim.MONO, 2048);
   out = minim.getLineOut(Minim.MONO);
+
+  checkFileExist();
 }
 
 void draw(){ 
   background(255); 
   stroke(255);
 
-  if(playFlag){
+  if(play_flag){
       playFunc();
   }
 }
@@ -48,7 +54,7 @@ void keyPressed() {
   { 
     if(player[0] != null){
         player[player_count].pause();
-        playFlag = false;
+        play_flag = false;
         player_count = 0;
     }
     recFunc();
@@ -63,7 +69,7 @@ void keyReleased()
   { 
     saveFunc();
     if(player[0] != null){
-        playFlag = true;
+        play_flag = true;
     }
   }
 }
@@ -96,4 +102,33 @@ void playFunc() {
             player_count = 0;
         }
     }
+}
+
+// 既に録音データがあるかをチェック
+void checkFileExist() {
+  // 確認対象のファイル名を保持
+  String  file_name;
+
+  // 既に録音データがあるかを判別
+  boolean file_exist;
+
+  for(int i = 0; i < max_record; i++) {
+    file_name = "Documents/WORK/LinkingRecordings/yamada_tape2/data/myrecording" + i + ".wav";
+
+    file = new File(file_name);
+    file_exist = file.exists();
+
+    if(file_exist == true){
+      player[record_no] = new FilePlayer(minim.loadFileStream("data/myrecording" + record_no + ".wav"));
+      player[record_no].patch(out);
+      record_no++;
+
+      if(i == 0 || file_exist == true){
+        play_flag = true;
+      }
+    }
+    else if(file_exist == false){
+      return;
+    }
+  }
 }
