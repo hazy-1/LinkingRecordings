@@ -9,7 +9,8 @@ void loop(){
     int value;
     
     value = digitalRead( DIN_PIN );
+    // Serial.println(value);
     Serial.write( value );
 
-    delay( 50 );
+    delay( 70 );
 }

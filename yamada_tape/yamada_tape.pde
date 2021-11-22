@@ -1,7 +1,10 @@
 import ddf.minim.*;
 import ddf.minim.ugens.*;
-
 Minim minim;
+
+// シリアル通信用のライブラリをインポート
+import processing.serial.*;
+Serial port;
 
 // 録音できるデータ数
 int max_record = 100;
@@ -25,6 +28,9 @@ int player_count = 0;
 // 奇数or偶数をカウントするために、キーを押した回数を保持
 int key_count;
 
+boolean press_flag = false;
+boolean release_flag = false;
+
 //再生可能状態の判別
 boolean play_flag = false;
 
@@ -38,19 +44,60 @@ void setup()  {
   out = minim.getLineOut(Minim.MONO);
 
   checkFileExist();
+
+  port = new Serial(this, "/dev/cu.usbmodem101", 9600);
 }
 
 void draw()  { 
-  background(255); 
-  stroke(255);
+  // background(255); 
+  // stroke(255);
+
+  onPushButton();
 
   if(play_flag) {
-      playFunc();
+    playFunc();
   }
 }
 
-void keyReleased() {
-  if (key == 'r' ) {
+// void keyReleased() {
+//   if (key == 'r' ) {
+//       key_count++;
+
+//       if(key_count % 2 == 1) {
+//         if(player[0] != null) { 
+//             player[player_count].pause();
+//             play_flag = false;
+//             player_count = 0;
+//         }
+//         recFunc();
+//       }
+//       else if(key_count % 2 == 0) {
+//         saveFunc();
+
+//         if(player[0] != null) {
+//             play_flag = true;
+//         }
+//       }
+//   }
+// }
+
+void onPushButton() {
+  if (port.available() > 0 ) {
+    
+    // シリアルデータ受信
+    if(press_flag ==  false && port.read() == 0) {
+      press_flag = true;
+    }
+    else if(press_flag == true && port.read() == 1){
+      release_flag = true;
+    }
+    else {
+      return;
+    }
+
+    if(press_flag == true && release_flag == true) {
+      press_flag = false;
+      release_flag = false;
       key_count++;
 
       if(key_count % 2 == 1) {
@@ -68,6 +115,7 @@ void keyReleased() {
             play_flag = true;
         }
       }
+    }
   }
 }
 
