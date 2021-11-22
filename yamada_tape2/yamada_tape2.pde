@@ -26,7 +26,7 @@ int rec_flag_count = 0;
 //再生可能状態の判別
 boolean play_flag = false;
 
-void setup(){
+void setup() {
   size(500, 500);
   background(255);
 
@@ -38,11 +38,11 @@ void setup(){
   checkFileExist();
 }
 
-void draw(){ 
+void draw() { 
   background(255); 
   stroke(255);
 
-  if(play_flag){
+  if(play_flag) {
       playFunc();
   }
 }
@@ -68,7 +68,7 @@ void keyReleased()
   if (key == 'r' )
   { 
     saveFunc();
-    if(player[0] != null){
+    if(player[0] != null) {
         play_flag = true;
     }
   }
@@ -98,7 +98,7 @@ void playFunc() {
         player[player_count].cue(0);
         player_count++;
 
-        if(player_count == record_no){
+        if(player_count == record_no) {
             player_count = 0;
         }
     }
@@ -118,16 +118,16 @@ void checkFileExist() {
     file = new File(file_name);
     file_exist = file.exists();
 
-    if(file_exist == true){
+    if(file_exist == true) {
       player[record_no] = new FilePlayer(minim.loadFileStream("data/myrecording" + record_no + ".wav"));
       player[record_no].patch(out);
       record_no++;
 
-      if(i == 0 || file_exist == true){
+      if(i == 0 || file_exist == true) {
         play_flag = true;
       }
     }
-    else if(file_exist == false){
+    else if(file_exist == false) {
       return;
     }
   }
