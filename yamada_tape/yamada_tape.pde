@@ -1,10 +1,7 @@
 import ddf.minim.*;
 import ddf.minim.ugens.*;
-Minim minim;
 
-// シリアル通信用のライブラリをインポート
-import processing.serial.*;
-Serial port;
+Minim minim;
 
 // 録音できるデータ数
 int max_record = 100;
@@ -28,13 +25,10 @@ int player_count = 0;
 // 奇数or偶数をカウントするために、キーを押した回数を保持
 int key_count;
 
-boolean press_flag = false;
-boolean release_flag = false;
-
 //再生可能状態の判別
 boolean play_flag = false;
 
-void setup()  {
+void setup(){
   size(500, 500);
   background(255);
 
@@ -44,64 +38,25 @@ void setup()  {
   out = minim.getLineOut(Minim.MONO);
 
   checkFileExist();
-
-  port = new Serial(this, "/dev/cu.usbmodem101", 9600);
 }
 
-void draw()  { 
-  // background(255); 
-  // stroke(255);
+void draw(){ 
+  background(255); 
+  stroke(255);
 
-  onPushButton();
-
-  if(play_flag) {
-    playFunc();
+  if(play_flag){
+      playFunc();
   }
 }
 
-// void keyReleased() {
-//   if (key == 'r' ) {
-//       key_count++;
-
-//       if(key_count % 2 == 1) {
-//         if(player[0] != null) { 
-//             player[player_count].pause();
-//             play_flag = false;
-//             player_count = 0;
-//         }
-//         recFunc();
-//       }
-//       else if(key_count % 2 == 0) {
-//         saveFunc();
-
-//         if(player[0] != null) {
-//             play_flag = true;
-//         }
-//       }
-//   }
-// }
-
-void onPushButton() {
-  if (port.available() > 0 ) {
-    
-    // シリアルデータ受信
-    if(press_flag ==  false && port.read() == 0) {
-      press_flag = true;
-    }
-    else if(press_flag == true && port.read() == 1){
-      release_flag = true;
-    }
-    else {
-      return;
-    }
-
-    if(press_flag == true && release_flag == true) {
-      press_flag = false;
-      release_flag = false;
+void keyReleased()
+{
+  if (key == 'r' )
+  {
       key_count++;
 
       if(key_count % 2 == 1) {
-        if(player[0] != null) { 
+        if(player[0] != null){
             player[player_count].pause();
             play_flag = false;
             player_count = 0;
@@ -111,11 +66,10 @@ void onPushButton() {
       else if(key_count % 2 == 0) {
         saveFunc();
 
-        if(player[0] != null) {
+        if(player[0] != null){
             play_flag = true;
         }
       }
-    }
   }
 }
 
@@ -144,7 +98,7 @@ void playFunc() {
         player[player_count].cue(0);
         player_count++;
 
-        if(player_count == record_no) {
+        if(player_count == record_no){
             player_count = 0;
         }
     }
@@ -164,16 +118,16 @@ void checkFileExist() {
     file = new File(file_name);
     file_exist = file.exists();
 
-    if(file_exist == true) {
+    if(file_exist == true){
       player[record_no] = new FilePlayer(minim.loadFileStream("data/myrecording" + record_no + ".wav"));
       player[record_no].patch(out);
       record_no++;
 
-      if(i == 0 || file_exist == true) {
+      if(i == 0 || file_exist == true){
         play_flag = true;
       }
     }
-    else if(file_exist == false) {
+    else if(file_exist == false){
       return;
     }
   }
